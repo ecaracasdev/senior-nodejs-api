@@ -4,7 +4,7 @@ import ProductModel, {
   ProductInput,
 } from "../models/product.model";
 
-export async function createProduct(input: ProductInput) {
+export async function createProduct(input: Omit<ProductInput, "productId">) {
   return ProductModel.create(input);
 }
 
