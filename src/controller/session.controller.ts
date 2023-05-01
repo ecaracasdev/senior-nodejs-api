@@ -6,9 +6,10 @@ import {
   updateSessions,
 } from "../service/session.service";
 import { signJwt } from "../utils/jwt.utils";
-import config from "config";
+import ConfigManager from "../configurations/config.manager";
 
 export async function createUserSessionHandler(req: Request, res: Response) {
+  const config = ConfigManager.getConfiguration();
   //validate the user's password
   const user = await validatePassword(req.body);
 
@@ -23,14 +24,32 @@ export async function createUserSessionHandler(req: Request, res: Response) {
 
   const accessToken = signJwt(
     { ...user, session: session._id },
-    { expiresIn: config.get("accessTokenTtl") }
+    { expiresIn: config.accessTokenTtl }
   );
 
   // create a refresh token
   const refreshToken = signJwt(
     { ...user, session: session._id },
-    { expiresIn: config.get("refreshToken") }
+    { expiresIn: config.refreshTokenTtl }
   );
+
+  res.cookie("accessToken", accessToken, {
+    maxAge: 900000, //15 min
+    httpOnly: true,
+    domain: "localhost",
+    path: "/",
+    sameSite: true,
+    secure: false,
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    maxAge: 3.154e10, //1year
+    httpOnly: true,
+    domain: "localhost",
+    path: "/",
+    sameSite: true,
+    secure: false,
+  });
 
   // return access & refresh tokens
   return res.send({ accessToken, refreshToken });

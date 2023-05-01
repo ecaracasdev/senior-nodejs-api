@@ -71,9 +71,7 @@ describe("product", () => {
 
         expect(statusCode).toBe(200);
         expect(body).toEqual({
-          __v: 0,
           _id: expect.any(String),
-          createdAt: expect.any(String),
           description:
             "Designed for first-time DSLR owners who want impressive results straight out of the box, capture those magic moments no matter your level with the EOS 1500D. With easy to use automatic shooting modes, large 24.1 MP sensor, Canon Camera Connect app integration and built-in feature guide, EOS 1500D is always ready to go.",
           image: "https://i.imgur.com/QlRphfQ.jpg",
@@ -81,6 +79,7 @@ describe("product", () => {
           productId: expect.any(String),
           title: "Canon EOS 1500D DSLR Camera with 18-55mm Lens",
           updatedAt: expect.any(String),
+          createdAt: expect.any(String),
           user: expect.any(String),
         });
       });

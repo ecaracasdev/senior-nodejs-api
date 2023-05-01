@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import bycrypt from "bcrypt";
-import config from "config";
+// import config from "config";
+import ConfigManager from "../configurations/config.manager";
+
+const config = ConfigManager.getConfiguration()
 
 export interface UserInput {
   email: string;
@@ -35,6 +38,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false
   }
 );
 
@@ -44,7 +48,7 @@ userSchema.pre("save", async function (next) {
     return next();
   }
 
-  const salt = await bycrypt.genSalt(config.get<number>("saltWorkFactor"));
+  const salt = await bycrypt.genSalt(config.saltWorkFactor);
   const hash = await bycrypt.hashSync(user.password, salt);
 
   user.password = hash;
