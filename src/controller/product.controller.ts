@@ -8,6 +8,7 @@ import {
   deleteProduct,
   findAndUpdateProduct,
   findProduct,
+  findProducts,
 } from "../service/product.service";
 
 export async function createProductHandler(
@@ -48,6 +49,19 @@ export async function getProductHandler(
   }
 
   return res.send(product);
+}
+
+export async function getProductsHandler(
+  req: Request<UpdateProductInput["params"]>,
+  res: Response
+) {
+  const products = await findProducts();
+
+  if (products.length === 0) {
+    return res.sendStatus(404);
+  }
+
+  return res.send(products);
 }
 
 export async function deleteProductHandler(

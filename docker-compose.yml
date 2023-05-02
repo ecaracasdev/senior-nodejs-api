@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  #MongoDB service
+  mongo_db:
+    container_name: api_db_container
+    image: mongo:5.0
+    restart: always
+    ports:
+      - 2717:2717
+    volumes:
+      - mongo_db:/data/db
+  #Node API service
+  api:
+    build: .
+    ports:
+      - 1337:1337
+    volumes:
+      - .:/usr/src/index
+    environment:
+      PORT: 1337
+      MONGO_URI: mongodb://mongo_db:27017/apidev
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}

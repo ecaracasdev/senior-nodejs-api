@@ -5,6 +5,7 @@
   "author": "elias Caracas",
   "license": "MIT",
   "scripts": {
+    "start": "tsc && node build/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
     "test": "jest"

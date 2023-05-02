@@ -15,6 +15,13 @@ export async function findProduct(
   return ProductModel.findOne(query, {}, options);
 }
 
+export async function findProducts(
+  query?: FilterQuery<ProductDocument> | undefined,
+  options: QueryOptions = { lean: true }
+) {
+  return ProductModel.find(query || {}, {}, options);
+}
+
 export async function findAndUpdateProduct(
   query: FilterQuery<ProductDocument>,
   update: UpdateQuery<ProductDocument>,
