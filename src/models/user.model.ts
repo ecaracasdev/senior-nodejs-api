@@ -3,7 +3,6 @@ import bycrypt from "bcrypt";
 // import config from "config";
 import ConfigManager from "../configurations/config.manager";
 
-const config = ConfigManager.getConfiguration()
 
 export interface UserInput {
   email: string;
@@ -43,6 +42,8 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
+  const config = ConfigManager.getConfiguration()
+
   let user = this as UserDocument;
   if (!user.isModified("password")) {
     return next();
