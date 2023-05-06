@@ -25,6 +25,7 @@ import {
   getProductsHandler,
   updateProductHandler,
 } from "./controller/product.controller";
+import {  getAvgAbsorbancesHandler, updateMaxIntensitiesHandler, uploadAbsorbancesFilesHandler } from "./controller/absorbance.controller";
 
 function routes(app: Express) {
   app.get("/healthcheck", (req: Request, res: Response) => res.sendStatus(200));
@@ -63,6 +64,10 @@ function routes(app: Express) {
     [requireUser, validateResource(deleteProductSchema)],
     deleteProductHandler
   );
+
+  app.post('/api/absorbances', requireUser, uploadAbsorbancesFilesHandler)
+  app.get('/api/absorbances', requireUser, getAvgAbsorbancesHandler)
+  app.patch('/api/absorbances', requireUser, updateMaxIntensitiesHandler)
 }
 
 export default routes;
