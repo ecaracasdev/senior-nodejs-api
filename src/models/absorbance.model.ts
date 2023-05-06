@@ -3,6 +3,7 @@ import { UserDocument } from "./user.model";
 
 export interface AbsorbanceInput {
   userId: UserDocument["_id"];
+  compound: string;
   filename: string;
   dayOfStudy: string;
   temperature: string;
@@ -13,6 +14,7 @@ export interface AbsorbanceInput {
 
 export interface AbsorbanceDocument extends AbsorbanceInput, mongoose.Document {
   userId: UserDocument["_id"];
+  compound: string;
   filename: string;
   dayOfStudy: string;
   temperature: string;
@@ -29,6 +31,7 @@ const absorbanceSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    compound: { type: String, required: true },
     filename: { type: String, required: true },
     dayOfStudy: { type: String, required: true },
     temperature: { type: String, required: true },

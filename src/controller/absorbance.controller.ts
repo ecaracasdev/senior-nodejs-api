@@ -51,34 +51,41 @@ export async function uploadAbsorbancesFilesHandler(
   req: Request<{}, {}, CreateAbsorbanceInput["body"]>,
   res: Response
 ) {
-  const userId = res.locals.user._id;
-  const body = req.body;
+  try {
+    const userId = res.locals.user._id;
+    const body = req.body;
 
-  const existingAbsorbances = await findAbsorbances({
-    dayOfStudy: body.dayOfStudy,
-    temperature: body.temperature,
-    //@ts-ignore
-    filename: body.absorbances["name"],
-  });
-
-  if (existingAbsorbances.length > 0) {
-    return res.status(400).send({
-      message: "Absorbances already exist for this study and temperature",
+    const existingAbsorbances = await findAbsorbances({
+      dayOfStudy: body.dayOfStudy,
+      temperature: body.temperature,
+      //@ts-ignore
+      filename: body.absorbances["name"],
     });
+
+    if (existingAbsorbances.length > 0) {
+      return res.status(400).send({
+        message: "Absorbances already exist for this study and temperature",
+      });
+    }
+
+    const result = getMaxIntensities(body.absorbances);
+    const absorbance = await createAbsorbance({
+      userId,
+      compound: body.compound,
+      filename: result.filename,
+      dayOfStudy: body.dayOfStudy,
+      temperature: body.temperature,
+      concentration: result.concentration,
+      maxIntensity: result.maxIntensity,
+      maxWavelenght: result.maxWavelenght,
+    });
+
+    return res.send({ absorbance });
+  } catch (error: any) {
+    logger.error(error.message);
+    logger.error(error)
+    return res.status(400).send('A error happen while uploading the files');
   }
-
-  const result = getMaxIntensities(body.absorbances);
-  const absorbance = await createAbsorbance({
-    userId,
-    filename: result.filename,
-    dayOfStudy: body.dayOfStudy,
-    temperature: body.temperature,
-    concentration: result.concentration,
-    maxIntensity: result.maxIntensity,
-    maxWavelenght: result.maxWavelenght,
-  });
-
-  return res.send({ absorbance });
 }
 
 export async function getAvgAbsorbancesHandler(

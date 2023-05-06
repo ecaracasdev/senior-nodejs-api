@@ -24,6 +24,7 @@ export async function findAvgAbsorbances() {
           temperature: "$temperature",
           concentration: "$concentration",
           dayOfStudy: "$dayOfStudy",
+          compound: "$compound",
         },
         maxIntensities: { $push: "$maxIntensity" },
         avgIntensity: { $avg: "$maxIntensity" },

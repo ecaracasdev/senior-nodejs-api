@@ -2,6 +2,9 @@ import { object, number, string, TypeOf, array } from "zod";
 
 const payload = {
   body: object({
+    compound: string({
+      required_error: "compound is required",
+    }),
     temperature: string({
       required_error: "temperature is required",
     }),
