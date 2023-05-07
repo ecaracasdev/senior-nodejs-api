@@ -30,6 +30,11 @@ function createServer() {
     })
   );
 
+  app.use((req, res, next) => {
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    next();
+  });
+
   app.use(cookieParser());
 
   app.use(express.json());
