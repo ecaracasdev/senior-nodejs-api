@@ -6,4 +6,5 @@ export default {
   accessTokenTtl: "15m",
   refreshTokenTtl: "1y",
   privateKey: process.env.SECRET_JWT || `secretKey`,
+  cookiesDomain: process.env.COOKIES_DOMAIN || 'localhost'
 };

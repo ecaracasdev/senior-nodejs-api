@@ -19,7 +19,8 @@ function createServer() {
   console.log('config:', {
     port: config.port,
     origin: config.origin,
-    dbUri: config.dbUri
+    dbUri: config.dbUri,
+    cookiesDomain: config.cookiesDomain
   })
 
   app.use(

@@ -80,6 +80,26 @@ export async function uploadAbsorbancesFilesHandler(
       maxWavelenght: result.maxWavelenght,
     });
 
+    
+    //aqui tambien habria que cargar en la coleccion de conditions en caso de estar vacia agregar uno para el userId
+    // en caso de tener ya cargado temperatura o concentracion o dia de estudio o compuesto verificar si es el mismo que se esta cargando
+    //si es el mismo no hacer nada, si es diferente hacer un push 
+
+    /* {
+      userId: string;
+      temperatures: string[];
+      concentrations: string[];
+      daysOfStudies: string[];
+      compounds: string[]
+    } */
+
+    //hay que crear un servicio y usarlo aqui algo como, upsertCondition (insert or update)
+    // hay que crear un modelo y un schema para las conditions y usarlo desde el service upsertCondition
+
+    //hay que crear tambien un controller con un metodo getConditionsByUserId que buscara en la tabla conditions por el userId y respondera con
+    //el objeto de arreglos de las condiciones que usara el usuario
+
+
     return res.send({ absorbance });
   } catch (error: any) {
     logger.error(error.message);

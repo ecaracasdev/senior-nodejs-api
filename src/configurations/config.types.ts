@@ -7,6 +7,7 @@ type Config = {
   refreshTokenTtl: string;
   publicKey: string;
   privateKey: string;
+  cookiesDomain: string;
 };
 
 export default Config;
